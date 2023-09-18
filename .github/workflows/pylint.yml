@@ -1,0 +1,26 @@
+name: Pylint
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10"]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        echo "Installing the dependencies"
+        python -m pip install --upgrade pip
+        pip install black
+    - name: Analysing the code with black
+      run: |
+        echo "reviewing the format with black from Python"
+        black --check $(git ls-files '*.py')
+        if [ "$?" -eq "0" ]; then echo "format is ok"; exit 1; fi
