@@ -19,7 +19,7 @@ jobs:
         echo "Installing the dependencies"
         python -m pip install --upgrade pip
         pip install black
-    - name: Analysing the code with pylint
+    - name: Analysing the code with black
       run: |
         echo "reviewing the format with black from Python"
         black --check $(git ls-files '*.py')
